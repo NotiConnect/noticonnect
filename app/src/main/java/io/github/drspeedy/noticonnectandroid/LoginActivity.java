@@ -211,7 +211,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new LoginTask(LoginActivity.this, email, password);
-            //mAuthTask.execute((Void) null);
+
+            // We are executing a multithreaded task, so we need to execute on the executor thread pool
             mAuthTask.executeOnExecutor(THREAD_POOL_EXECUTOR);
         }
     }
