@@ -13,15 +13,18 @@ import net.openid.appauth.TokenRequest;
 import net.openid.appauth.TokenResponse;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import io.github.drspeedy.noticonnectandroid.models.User;
 
-import static android.content.ContentValues.TAG;
+import io.github.drspeedy.noticonnectandroid.Application;
+import io.github.drspeedy.noticonnectandroid.models.User;
 
 /**
  * Created by doc on 10/21/16.
  */
 
 public class LoginTask extends AsyncTask<Void, Void, Boolean> {
+
+    // Log tag
+    private static final String TAG = LoginTask.class.getSimpleName();
 
     // Login response status constants
     public static final String AUTH_LOGIN_SUCCESS = "io.github.drspeedy.noticonnectandroid.AUTH_LOGIN_SUCCESS";
@@ -33,16 +36,16 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
     private static final String AUTH_CLIENT_SECRET = "3kheMkBVnhCNYP5EhFD9bUwkA2pMk97blarENM0M";
 
     // OAuth server authorize and token endpoints
-    public static final String AUTH_AUTHORIZE_ENDPOINT = "http://172.16.1.36:8000/oauth/authorize";
-    public static final String AUTH_TOKEN_ENDPOINT = "http://172.16.1.36:8000/oauth/token";
+    public static final String AUTH_AUTHORIZE_ENDPOINT = Application.BASE_HOST + "/oauth/authorize";
+    public static final String AUTH_TOKEN_ENDPOINT = Application.BASE_HOST + "/oauth/token";
 
     // Member variables
     private Context mContext;                               // Context of the activity that executed this task
-    private AuthorizationService mAuthorizationService;     // Authorization service singleton to handle the bulk of network logic
+    private AuthorizationService mAuthorizationService;     // Authorization service singleton to onApiResponse the bulk of network logic
     private final String mAccountName;                      // User's email address (Could also be a username, however our server uses email)
     private final String mAccountPassword;                  // User's password
     private Boolean mResponseReceived;                      // Set true when OnTokenResponse is called
-    private User mUser;                                     // Object to hold user data once login is successful
+    private User mUser;                                     // Object to hold authenticated user
 
     /**
      * Construct the LoginTask object
@@ -82,6 +85,9 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
         String action;
         if (success) {
             action = AUTH_LOGIN_SUCCESS;
+
+            // Save the user data to shared preferences
+            mUser.persist(mContext);
         }
         else {
             action = AUTH_LOGIN_FAILED;
@@ -103,8 +109,8 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     /**
-     * Check to see whether the mUser object has been instantiated or not
-     * @return isNull
+     * Check to see whether the user has been authenticated
+     * @return Boolean
      */
     private Boolean isUserAuthenticated() {
         Log.d(TAG, "Checking user has been authenticated...");
