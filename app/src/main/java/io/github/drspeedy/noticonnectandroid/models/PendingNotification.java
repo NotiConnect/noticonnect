@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 public class PendingNotification {
     private User mUser;
+    private Notification mNotification;
 
     public Notification getNotification() {
         return mNotification;
@@ -26,8 +27,6 @@ public class PendingNotification {
     public void setUser(User user) {
         mUser = user;
     }
-
-    private Notification mNotification;
 
     public PendingNotification(User user, Notification notification) {
         mUser = user;
