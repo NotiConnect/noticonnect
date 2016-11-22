@@ -332,6 +332,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     case AUTH_LOGIN_SUCCESS:
                         mAuthTask = null;
                         showProgress(false);
+                        setResultCode(RESULT_OK);
                         finish();
                         break;
 

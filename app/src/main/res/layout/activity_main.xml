@@ -12,7 +12,22 @@
     tools:context="io.github.drspeedy.noticonnectandroid.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/activity_main_service_status_label"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/activity_main_service_running"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/activity_main_start_service_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_main_service_status_label"
+        android:layout_centerHorizontal="true"
+        android:text="@string/activity_main_start_service"
+        android:visibility="gone" />
 </RelativeLayout>

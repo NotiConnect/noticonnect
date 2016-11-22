@@ -2,6 +2,11 @@
     <string name="app_name">NotiConnect</string>
     <string name="title_activity_login">Sign in</string>
 
+    <!-- main view ui labels -->
+    <string name="activity_main_service_running">The notification forwarding service is currently running.</string>
+    <string name="activity_main_service_stopped">The notification forwarding service is currently stopped. Please restart the service.</string>
+    <string name="activity_main_start_service">Start the accessibility service</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
