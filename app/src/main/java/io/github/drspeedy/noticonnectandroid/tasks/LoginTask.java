@@ -41,7 +41,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
     // Member variables
     private Context mContext;                               // Context of the activity that executed this task
-    private AuthorizationService mAuthorizationService;     // Authorization service singleton to onApiResponse the bulk of network logic
+    private AuthorizationService mAuthorizationService;     // Authorization service singleton to handle the bulk of network logic
     private final String mAccountName;                      // User's email address (Could also be a username, however our server uses email)
     private final String mAccountPassword;                  // User's password
     private Boolean mResponseReceived;                      // Set true when OnTokenResponse is called

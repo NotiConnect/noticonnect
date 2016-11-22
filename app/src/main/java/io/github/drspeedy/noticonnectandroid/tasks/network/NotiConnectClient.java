@@ -18,7 +18,7 @@ import java.util.Map;
 
 import io.github.drspeedy.noticonnectandroid.Application;
 import io.github.drspeedy.noticonnectandroid.helpers.NotificationParser;
-import io.github.drspeedy.noticonnectandroid.models.HttpResponse;
+import io.github.drspeedy.httpclient.models.HttpResponse;
 
 /**
  * Created by doc on 11/6/16.
@@ -47,7 +47,7 @@ public class NotiConnectClient {
 
         new ApiPostCall("/notify", accessToken, params, new HttpResponse.Callback() {
             @Override
-            public void onApiResponse(HttpResponse response) {
+            public void onHttpResponse(HttpResponse response) {
                 Log.i(TAG, "Response status: " + response.getResponseCode());
                 Log.i(TAG, "Response message: " + response.getResponseString());
             }
@@ -91,7 +91,6 @@ public class NotiConnectClient {
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 connection.setDoOutput(true);
-                connection.setDoOutput(true);
                 // TODO: Add support for redirected call handling
                 connection.setInstanceFollowRedirects(false);
                 connection.setRequestMethod("POST");
@@ -122,7 +121,7 @@ public class NotiConnectClient {
         @Override
         protected void onPostExecute(HttpResponse response) {
             if (response != null && mResponseCallback != null) {
-                mResponseCallback.onApiResponse(response);
+                mResponseCallback.onHttpResponse(response);
             }
         }
 

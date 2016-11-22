@@ -1,4 +1,4 @@
-package io.github.drspeedy.noticonnectandroid.models;
+package io.github.drspeedy.httpclient.models;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +42,7 @@ public class HttpResponse {
         mResponseCode = responseCode;
     }
 
-    public boolean isHasError() {
+    public boolean hasError() {
         return mHasError;
     }
 
@@ -67,6 +67,6 @@ public class HttpResponse {
     }
 
     public interface Callback {
-        void onApiResponse(HttpResponse response);
+        void onHttpResponse(HttpResponse response);
     }
 }
