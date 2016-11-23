@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startService();
+                        launchAccessibilitySettings();
                         updateUI();
                     }
                 }
@@ -78,7 +78,7 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    private void startService() {
+    private void launchAccessibilitySettings() {
         Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startService(intent);
     }
