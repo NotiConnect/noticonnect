@@ -2,13 +2,12 @@ package io.github.drspeedy.noticonnectandroid.services;
 
 import android.accessibilityservice.AccessibilityService;
 import android.app.Notification;
-import android.content.BroadcastReceiver;
-import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
-import io.github.drspeedy.noticonnectandroid.tasks.network.NotiConnectClient;
+import io.github.drspeedy.noticonnectandroid.models.PendingNotification;
+import io.github.drspeedy.noticonnectandroid.network.NotiConnectClient;
 import io.github.drspeedy.noticonnectandroid.models.User;
 
 
@@ -20,15 +19,12 @@ public class NotiConnectService extends AccessibilityService {
 
     private static final String TAG = NotiConnectService.class.getSimpleName();
 
-    private NotiConnectClient mClient;
     private String mAccessToken;
 
     @Override
     public void onCreate() {
         User user = User.getUserFromPreferences(this);
         mAccessToken = user.getAccessToken();
-
-        mClient = new NotiConnectClient(this);
         super.onCreate();
     }
 
@@ -54,7 +50,9 @@ public class NotiConnectService extends AccessibilityService {
 
     private void onNotificationReceived(Notification notification, String packageName) {
         Log.i(TAG, "onNotificationReceived()");
-        // Post the notification to the sever
-        mClient.postNotification(mAccessToken, notification, packageName);
+
+        NotiConnectClient client = new NotiConnectClient(this);
+        PendingNotification pending = new PendingNotification(this, notification, packageName);
+        client.postNotification(pending);
     }
 }

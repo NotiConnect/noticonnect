@@ -3,13 +3,17 @@ package io.github.drspeedy.httpclient;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import io.github.drspeedy.httpclient.models.HttpResponse;
 
@@ -18,6 +22,8 @@ import io.github.drspeedy.httpclient.models.HttpResponse;
  */
 
 public class HttpClient {
+
+    private static final String TAG = HttpClient.class.getSimpleName();
 
     public static final String HTTP_POST = "POST";
     public static final String HTTP_GET = "GET";
@@ -40,6 +46,21 @@ public class HttpClient {
         new HttpRequestTask(requestType, requestProperties, requestBody, callback).execute();
     }
 
+    public byte[] mapToUrlEncoded(Map<String, String> map) throws UnsupportedEncodingException {
+        String params = "";
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            params += key + "=" + value + "&";
+        }
+
+        Log.d(TAG, "mapToUrlEncoded() => " + params);
+        String urlSafeParams = URLEncoder.encode(params, "utf-8");
+        return params.getBytes();
+    }
+
     private class HttpRequestTask extends AsyncTask<Void, Void, HttpResponse> {
 
         // TODO: Follow redirects? Add http timeout params. PUT DELETE
@@ -49,11 +70,11 @@ public class HttpClient {
         private HttpResponse.Callback mCallback;
 
         /**
-         *
-         * @param requestType
-         * @param requestProperties
-         * @param requestBody
-         * @param onHttpResponse
+         * Construct the HttpRequestTask for background execution
+         * @param requestType HTTP request type
+         * @param requestProperties Header data
+         * @param requestBody Body data
+         * @param onHttpResponse Async callback to handle the response from the HTTP server
          */
         public HttpRequestTask(@NonNull String requestType, @Nullable Map<String, String> requestProperties,
                                @Nullable byte[] requestBody, @Nullable HttpResponse.Callback onHttpResponse) {
@@ -87,6 +108,11 @@ public class HttpClient {
             mCallback.onHttpResponse(httpResponse);
         }
 
+        /**
+         * Sends an HTTP(S) POST request
+         * @return HttpResponse
+         * @throws IOException
+         */
         private HttpResponse sendPostRequest() throws IOException {
             HttpURLConnection connection = (HttpURLConnection) getURL().openConnection();
 
@@ -107,6 +133,11 @@ public class HttpClient {
             return response;
         }
 
+        /**
+         * Sends an HTTP(S) GET request
+         * @return HttpResponse
+         * @throws IOException
+         */
         private HttpResponse sendGetRequest() throws IOException {
             HttpURLConnection connection = (HttpURLConnection) getURL().openConnection();
 
