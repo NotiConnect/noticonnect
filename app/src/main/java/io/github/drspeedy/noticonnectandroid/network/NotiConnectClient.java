@@ -30,6 +30,7 @@ public class NotiConnectClient extends HttpClient {
 
     public void postNotification(PendingNotification pendingNotification) {
         Map<String, String> body = new HashMap<>();
+        body.put("uuid", pendingNotification.getUUID());
         body.put("package_name", pendingNotification.getPackageName());
         body.put("title", pendingNotification.getTitle());
         body.put("text", pendingNotification.getText());

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 /**
  * Created by doc on 10/8/16.
@@ -25,6 +26,7 @@ public class PendingNotification {
     // Member variables
     private Context mContext;
     private final Bundle mNotificationBundle;
+    private final UUID mUUID;
     private final String mPackageName;
     private final String mGroup;
     private final Icon mSmallIcon;
@@ -39,11 +41,20 @@ public class PendingNotification {
      */
     public PendingNotification(Context context, Notification notification, String packageName) {
         mContext = context;
+        mUUID = UUID.randomUUID();
         mNotificationBundle = notification.extras;
         mPackageName = packageName;
         mSmallIcon = notification.getSmallIcon();
         mLargeIcon = notification.getLargeIcon();
         mGroup = notification.getGroup();
+    }
+
+    /**
+     * Get the notification's UUID
+     * @return String
+     */
+    public final String getUUID() {
+        return mUUID.toString();
     }
 
     /**
